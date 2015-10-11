@@ -20,11 +20,11 @@ If you want to do that to an entire collection of Project Gutenberg files:
     mkdir cleaned
     script/guten-gutter ../gutenberg/*.txt --output-dir=cleaned
 
-To use Guten-gutter from any working directory, add the `bin` directory in this
-repository to your `PATH`.  For example, you might add this line to your
+To use Guten-gutter from any working directory, add the `script` directory in
+this repository to your `PATH`.  For example, you might add this line to your
 `.bashrc`:
 
-    export PATH=/path/to/this/repo/bin:$PATH
+    export PATH=/path/to/this/repo/script:$PATH
 
 An easy way to accomplish this is to dock Guten-gutter using [toolshelf][]:
 
