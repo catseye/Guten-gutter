@@ -1,11 +1,11 @@
-Guten-Gutter
+Guten-gutter
 ============
 
 Guten-gutter is a command-line filter for stripping the boilerplate off of
 text files from Project Gutenberg.  I was using [gutenizer][] for this
 purpose, but it has some shortcomings and there were several Project Gutenberg
 texts which it failed to properly strip, so I wrote this as a more robust
-replacement.  It's also, like Project Gutenberg texts themselves, in the
+replacement.  It's also (like Project Gutenberg texts themselves) in the
 public domain.
 
 Usage
@@ -26,16 +26,9 @@ repository to your `PATH`.  For example, you might add this line to your
 
     export PATH=/path/to/this/repo/bin:$PATH
 
-Guten-gutter requires that the `t_rext` Python module from [T-Rext][] can be
-found on your `PYTHONPATH`.  For example, you might add this line to your
-`.bashrc`:
+An easy way to accomplish this is to dock Guten-gutter using [toolshelf][]:
 
-    export PYTHONPATH=/path/to/t-rext/repo/src:$PYTHONPATH
-
-An easy way to accomplish the above two things is to dock T-Rext and
-Guten-gutter using [toolshelf][]:
-
-    toolshelf dock gh:catseye/t-rext gh:catseye/guten-gutter
+    toolshelf dock gh:catseye/guten-gutter
 
 Tests
 -----
@@ -78,3 +71,7 @@ Rewrite ProducedByProcessor as a StartSentinelProcessor (or otherwise
 have it ignore the end sentinel)
 
 Make IllustrationProcessor handle multiple lines
+
+[Falderal]:     http://catseye.tc/node/Falderal
+[toolshelf]:    http://catseye.tc/node/toolshelf
+[gutenizer]:    https://github.com/okfn/gutenizer
