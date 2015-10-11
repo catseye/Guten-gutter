@@ -13,12 +13,12 @@ Usage
 
 If you want to get just the book's text out of a Project Gutenberg text file:
 
-    bin/guten-gutter pg10662.txt > The_Night_Land.txt
+    script/guten-gutter pg10662.txt > The_Night_Land.txt
 
 If you want to do that to an entire collection of Project Gutenberg files:
 
     mkdir cleaned
-    bin/guten-gutter ../gutenberg/*.txt --output-dir=cleaned
+    script/guten-gutter ../gutenberg/*.txt --output-dir=cleaned
 
 To use Guten-gutter from any working directory, add the `bin` directory in this
 repository to your `PATH`.  For example, you might add this line to your
@@ -48,12 +48,12 @@ Our basic tests will be on Peter Rabbit.
 
 In its default invokation, it tries to strip most things.
 
-    | bin/guten-gutter fixture/pg14838.txt | wc -l
+    | script/guten-gutter fixture/pg14838.txt | wc -l
     = 230
 
 It can be told to strip illustrations, too...
 
-    | bin/guten-gutter --strip-illustrations fixture/pg14838.txt | wc -l
+    | script/guten-gutter --strip-illustrations fixture/pg14838.txt | wc -l
     = 201
 
 If it's not given a Project Gutenberg file, it doesn't strip anything.
@@ -61,7 +61,7 @@ If it's not given a Project Gutenberg file, it doesn't strip anything.
     | cat fixture/plain.txt | wc -l
     = 10
 
-    | bin/guten-gutter fixture/plain.txt | wc -l
+    | script/guten-gutter fixture/plain.txt | wc -l
     = 10
 
 TODO
