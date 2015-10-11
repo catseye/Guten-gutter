@@ -1,0 +1,93 @@
+#!/usr/bin/env python
+
+"""Usage: guten-gutter [--output-dir DIR] [OPTIONS] FILES
+
+Cleans the Project Gutenberg boilerplate off of the given input files.
+"""
+
+import codecs
+from optparse import OptionParser
+import os
+import re
+import sys
+
+from t_rext.processors import (
+    LineProcessor, TrailingWhitespaceProcessor,
+    SentinelProcessor, ComposedProcessor
+)
+
+
+class GutenbergBoilerplateStripper(SentinelProcessor):
+    START_RE = r'^\**\s*START\s+OF\s+(TH(IS|E)\s+)?PROJECT\s+GUTENBERG.*?$'
+    END_RE = r'^\**\s*END\s+OF\s+(TH(IS|E)\s+)?PROJECT\s+GUTENBERG.*?$'
+
+    def has_failed(self, original_lines, result_lines):
+        original_lines = list(original_lines)
+        result_lines = list(result_lines)
+        shrinkage = len(original_lines) - len(result_lines)
+        # usually under 400, but sometimes as high as 418...
+        return len(result_lines) == 0 or shrinkage > 450
+
+
+class ProducedByStripper(SentinelProcessor):
+    # TODO: rewrite as a StartSentinelProcessor?
+    START_RE = (r'^((THIS\s+)?E\-?(TEXT|BOOKS?)\s+(WAS\s+)?)?'
+                '(PRODUCED|PREPARED|TRANSCRIBED|UPDATED|SCANNED).*?$')
+    END_RE = r'^\**\s*END\s+OF\s+(TH(IS|E)\s+)?PROJECT\s+GUTENBERG.*?$'
+
+    def has_failed(self, original_lines, result_lines):
+        original_lines = list(original_lines)
+        result_lines = list(result_lines)
+        shrinkage = len(original_lines) - len(result_lines)
+        # Note: this is not sufficient by itself; it assumes that
+        # GutenbergBoilerplateStripper already removed the trailing
+        # legal text, which is large.
+        return len(result_lines) == 0 or shrinkage > 20
+
+
+class IllustrationStripper(LineProcessor):
+
+    def __iter__(self):
+        for line in self.iterable:
+            match = re.match(r'^\s*\[Illustration.*?\]\s*$', line)
+            if not match:
+                yield line
+
+
+### MAIN ###
+
+optparser = OptionParser(__doc__.strip())
+optparser.add_option("--strip-illustrations", default=False,
+                     action='store_true',
+                     help="also try to remove [Illustration: foo]'s")
+optparser.add_option("--output-dir", default=None, metavar='DIR',
+                     help="if given, save the resulting files to this "
+                          "directory (under their original names)"
+                          "instead of dumping them to standard output")
+(options, args) = optparser.parse_args(sys.argv[1:])
+
+for filename in args:
+    out = sys.stdout
+    if options.output_dir is not None:
+        out_filename = os.path.join(
+            options.output_dir, os.path.basename(filename)
+        )
+        out = open(out_filename, 'w')
+    with codecs.open(filename, 'r', encoding='UTF-8') as f:
+        orchestrator = ComposedProcessor(f,
+            [
+                TrailingWhitespaceProcessor,
+                GutenbergBoilerplateStripper,
+            ] +
+            ([IllustrationStripper] if options.strip_illustrations else []) +
+            [
+                ProducedByStripper,
+            ],
+            name=filename
+        )
+        for line in orchestrator:
+            out.write(line + '\n')
+        for error in orchestrator.errors:
+            sys.stderr.write(error + '\n')
+    if out is not sys.stdout:
+        out.close()
