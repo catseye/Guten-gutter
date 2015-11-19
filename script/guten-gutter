@@ -171,7 +171,7 @@ optparser.add_option("--strip-illustrations", default=False,
                      help="also try to remove [Illustration: foo]'s")
 optparser.add_option("--output-dir", default=None, metavar='DIR',
                      help="if given, save the resulting files to this "
-                          "directory (under their original names)"
+                          "directory (under their original names) "
                           "instead of dumping them to standard output")
 (options, args) = optparser.parse_args(sys.argv[1:])
 
@@ -181,7 +181,7 @@ for filename in args:
         out_filename = os.path.join(
             options.output_dir, os.path.basename(filename)
         )
-        out = open(out_filename, 'w')
+        out = codecs.open(out_filename, 'w', encoding='UTF-8')
     with codecs.open(filename, 'r', encoding='UTF-8') as f:
         orchestrator = ComposedProcessor(f,
             [
