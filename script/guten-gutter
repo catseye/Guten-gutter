@@ -127,7 +127,12 @@ class ComposedProcessor(LineProcessor):
 
 
 class GutenbergBoilerplateStripper(SentinelProcessor):
-    START_RE = r'^\**\s*START\s+OF\s+(TH(IS|E)\s+)?PROJECT\s+GUTENBERG.*?$'
+    START_RE = (
+        r'^\**\s*('
+        r'START\s+OF\s+(TH(IS|E)\s+)?PROJECT\s+GUTENBERG|'
+        r'END.*?SMALL\s*PRINT'
+        r').*?$'
+    )
     END_RE = r'^\**\s*END\s+OF\s+(TH(IS|E)\s+)?PROJECT\s+GUTENBERG.*?$'
 
     def has_failed(self, original_lines, result_lines):
