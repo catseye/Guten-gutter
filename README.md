@@ -36,32 +36,32 @@ Tests
 This is a test suite, written in [Falderal][] format, for the `guten-gutter`
 utility.  (Note that this isn't a very paradigmatic usage of Falderal!)
 
-    -> Functionality "Extract text from Project Gutenberg file" is implemented by
-    -> shell command "%(test-body-text)"
+    -> Functionality "Count lines in processed Project Gutenberg file"
+    -> is implemented by shell command "%(test-body-text) | wc -l | sed 's/ //g'"
 
-    -> Tests for functionality "Extract text from Project Gutenberg file"
+    -> Tests for functionality "Count lines in processed Project Gutenberg file"
 
 Our basic tests will be on Peter Rabbit.
 
-    | cat fixture/pg14838.txt | wc -l
+    | cat fixture/pg14838.txt
     = 618
 
 In its default invokation, it tries to strip most things.
 
-    | script/guten-gutter fixture/pg14838.txt | wc -l
+    | script/guten-gutter fixture/pg14838.txt
     = 230
 
 It can be told to strip illustrations, too...
 
-    | script/guten-gutter --strip-illustrations fixture/pg14838.txt | wc -l
+    | script/guten-gutter --strip-illustrations fixture/pg14838.txt
     = 201
 
 If it's not given a Project Gutenberg file, it doesn't strip anything.
 
-    | cat fixture/plain.txt | wc -l
+    | cat fixture/plain.txt
     = 10
 
-    | script/guten-gutter fixture/plain.txt | wc -l
+    | script/guten-gutter fixture/plain.txt
     = 10
 
 TODO
