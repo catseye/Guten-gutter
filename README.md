@@ -26,9 +26,9 @@ this repository to your `PATH`.  For example, you might add this line to your
 
     export PATH=/path/to/this/repo/script:$PATH
 
-An easy way to accomplish this is to dock Guten-gutter using [toolshelf][]:
+An easy way to accomplish this is to dock Guten-gutter using [shelf][]:
 
-    toolshelf dock gh:catseye/guten-gutter
+    shelf_dockgh catseye/Guten-gutter
 
 Tests
 -----
@@ -73,5 +73,5 @@ have it ignore the end sentinel)
 Make IllustrationProcessor handle multiple lines
 
 [Falderal]:     http://catseye.tc/node/Falderal
-[toolshelf]:    http://catseye.tc/node/toolshelf
+[shelf]:        http://catseye.tc/node/shelf
 [gutenizer]:    https://github.com/okfn/gutenizer
