@@ -1,3 +1,11 @@
+**\*\*\* NOTE: Discontinued. \*\*\* This project is discontinued.
+The author now considers this to be a poor method.  A superior
+method is to extract the text from HTML files instead.  See the
+[Anne of Green Garbles notes](https://github.com/catseye/NaNoGenMo-Entries-2019/tree/master/Anne%20of%20Green%20Garbles#related-work)
+for more information.**
+
+- - - -
+
 Guten-gutter
 ============
 
